@@ -1,0 +1,17 @@
+@media screen and (min-width: 1201px) {
+    .navbar-logo{
+        border: 3px solid rgb(0, 149, 255);
+        padding-left: 6px;
+        padding-right: 6px;
+        height: auto;
+        color: blue;
+    }
+    .navbarItem{
+        display: flex;
+        justify-content: end;
+    }
+    .active{
+        border-bottom: 5px solid blue;
+        border-radius: 5px;
+    }
+}
