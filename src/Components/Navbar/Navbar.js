@@ -19,7 +19,7 @@ const Navbar = () => {
                         </li>
                         <li className='nav-item'>
                             {
-                                user ? <p style={{ cursor: "pointer" }} onClick={() => logout()}>Logout</p> : <NavLink to={'/login'} className='nav-link'><i className='bi bi-person-circle fs-3'></i></NavLink>
+                                user && user?.uid ? <p style={{ cursor: "pointer" }} onClick={() => logout()}>Logout</p> : <NavLink to={'/login'} className='nav-link'><i className='bi bi-person-circle fs-3'></i></NavLink>
                             }
 
                         </li>

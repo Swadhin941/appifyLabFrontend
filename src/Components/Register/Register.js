@@ -5,19 +5,21 @@ import toast from 'react-hot-toast';
 import { SharedData } from '../SharedData/SharedContext';
 import { serverUrl } from '../CustomHook/ServerHook/serverUrl';
 import useToken from '../CustomHook/useToken/useToken';
+import ClockLoader from "react-spinners/ClockLoader";
 
 const Register = () => {
-    const { createAccount, updateProfileName, user } = useContext(SharedData);
+    const { createAccount, updateProfileName, user, verifyEmail } = useContext(SharedData);
     const [showPassword, setShowPassword] = useState(false);
-    const [token]= useToken(user?.email);
+    const [registerLoading, setRegisterLoading] = useState(false);
+    const [token] = useToken(user?.email);
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?.from?.pathname || '/' ;
-    useEffect(()=>{
-        if(token){
-            navigate(from, {replace: true});
+    const from = location.state?.from?.pathname || '/';
+    useEffect(() => {
+        if (token) {
+            navigate(from, { replace: true });
         }
-    },[token])
+    }, [token])
     const handleSubmit = (e) => {
         e.preventDefault();
         const form = e.target;
@@ -37,25 +39,38 @@ const Register = () => {
             toast.error("Password must be 6 character or more");
             return;
         }
+        setRegisterLoading(true);
         createAccount(email, password)
-        .then(users=>{
-            updateProfileName(fullName)
-            .then(()=>{
-                fetch(`${serverUrl}/user`,{
-                    method:"POST",
-                    headers:{
-                        "content-type": "application/json",
-                    },
-                    body: JSON.stringify({fullName, email, emailStatus: false, profilePicture: users?.user?.photoURL, coverPhoto: null})
-                })
-                .then(res=>res.json())
-                .then(data=>{
-                    if(data.acknowledged){
-                        toast.success(`Welcome ${users?.user?.displayName}`);
-                    }
-                })
+            .then(users => {
+                setRegisterLoading(false);
+                updateProfileName(fullName)
+                    .then(() => {
+                        fetch(`${serverUrl}/user`, {
+                            method: "POST",
+                            headers: {
+                                "content-type": "application/json",
+                            },
+                            body: JSON.stringify({ fullName, email, emailStatus: false, profilePicture: users?.user?.photoURL, coverPhoto: null })
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.acknowledged) {
+                                    verifyEmail()
+                                    .then(()=>{
+                                        toast.success("Verification email has been sent");
+                                    })
+                                }
+                            })
+                            .catch(error=>{
+                                toast.error(error.message);
+                            })
+                    })
             })
-        })
+            .catch(error=>{
+                const err= error.message.split('/')[1].split(')')[0];
+                toast.error(err);
+                setRegisterLoading(false);
+            })
 
     }
     return (
@@ -99,7 +114,7 @@ const Register = () => {
                             </div>
                         </div>
                         <div className='mt-2'>
-                            <button type='submit' className='btn btn-secondary w-100'>Register</button>
+                            <button type='submit' className='btn btn-secondary w-100 d-flex justify-content-center'>{registerLoading ? <ClockLoader color="white" size={24} /> : 'Register'}</button>
                         </div>
                     </form>
                     <p className='text-center mt-2'>Already have a account? <Link to={'/login'}>Click here</Link></p>
