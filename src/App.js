@@ -7,6 +7,7 @@ import Login from './Components/Login/Login';
 import Register from './Components/Register/Register';
 import Home from './Components/Home/Home';
 import ForgetPassword from './Components/ForgetPassword/ForgetPassword';
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const router = createBrowserRouter([
@@ -14,8 +15,8 @@ function App() {
       path: '/',
       errorElement: <ErrorElement></ErrorElement>,
       element: <Main></Main>,
-      children:[
-        { 
+      children: [
+        {
           path: '/',
           element: <Home></Home>
         },
@@ -40,6 +41,7 @@ function App() {
       <RouterProvider router={router}>
 
       </RouterProvider>
+      <Toaster />
     </div>
   );
 }

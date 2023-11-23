@@ -1,0 +1,8 @@
+@media screen and (min-width: 1201px) {
+    .registerContainer{
+        height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

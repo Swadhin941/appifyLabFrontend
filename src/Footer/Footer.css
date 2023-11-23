@@ -1,0 +1,13 @@
+.footerContainer{
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.footerLogo{
+    font-size: 2rem;
+    text-decoration: none;
+    border: 3px solid rgb(0, 149, 255);
+    padding-left: 6px;
+    padding-right: 6px;   
+}

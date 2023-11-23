@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import "./Navbar.css";
+import { SharedData } from '../SharedData/SharedContext';
 
 const Navbar = () => {
+    const { user, logout } = useContext(SharedData);
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary ">
             <div className="container-fluid">
@@ -16,7 +18,10 @@ const Navbar = () => {
                             <NavLink className="nav-link" to={'/'} ><i className='bi bi-house-door-fill fs-3'></i></NavLink>
                         </li>
                         <li className='nav-item'>
-                            <NavLink to={'/login'} className='nav-link'><i className='bi bi-person-circle fs-3'></i></NavLink>
+                            {
+                                user ? <p style={{ cursor: "pointer" }} onClick={() => logout()}>Logout</p> : <NavLink to={'/login'} className='nav-link'><i className='bi bi-person-circle fs-3'></i></NavLink>
+                            }
+
                         </li>
                     </ul>
                 </div>
