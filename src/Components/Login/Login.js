@@ -37,6 +37,10 @@ const Login = () => {
                 }
             })
         })
+        .catch(error=>{
+            const err= error.message.split('/')[1].split(')')[0];
+            toast.error(err);
+        })
     }
     const handleSubmit = (e) => {
         e.preventDefault();

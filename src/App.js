@@ -8,6 +8,8 @@ import Register from './Components/Register/Register';
 import Home from './Components/Home/Home';
 import ForgetPassword from './Components/ForgetPassword/ForgetPassword';
 import { Toaster } from "react-hot-toast";
+import Forbidden from './Components/Forbidden/Forbidden';
+import PrivateRoute from './Components/PrivateRoute/PrivateRoute';
 
 function App() {
   const router = createBrowserRouter([
@@ -18,7 +20,7 @@ function App() {
       children: [
         {
           path: '/',
-          element: <Home></Home>
+          element: <PrivateRoute><Home></Home></PrivateRoute>
         },
         {
           path: '/login',
@@ -32,8 +34,11 @@ function App() {
           path: "/forgetPassword",
           element: <ForgetPassword></ForgetPassword>
         }
-
       ]
+    },
+    {
+      path:"/forbidden",
+      element: <Forbidden></Forbidden>
     }
   ])
   return (
